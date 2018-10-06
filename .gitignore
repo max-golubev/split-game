@@ -1,0 +1,14 @@
+*.commithash
+*.patch
+*.pyc
+*~
+.DS_Store
+.idea/inspectionProfiles/
+.idea/dataSources.*
+.idea/dataSources
+.idea/shelf
+.idea/libraries/Gradle__*.xml
+.idea/gradle_extensions.xml
+.idea/workspace.xml
+.idea/usage.statistics.xml
+/out
