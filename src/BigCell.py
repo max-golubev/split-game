@@ -13,6 +13,12 @@ class BigCell:
         self.bottom = NOONE
         self.right = NOONE
 
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
     def get_owner(self):
         if self.left != NOONE:
             return self.left
