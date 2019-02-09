@@ -3,6 +3,8 @@ import BigCell
 
 class Board:
     def __init__(self, width, height):
+        self.columns = width
+        self.rows = height
         self.cells = width * [None]
         for x in range(0, width):
             column = height * [None]
@@ -12,3 +14,9 @@ class Board:
 
     def get_cell(self, x, y):
         return self.cells[x][y]
+
+    def get_columns(self):
+        return self.columns
+
+    def get_rows(self):
+        return self.rows
