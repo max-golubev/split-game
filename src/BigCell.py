@@ -35,7 +35,7 @@ class BigCell:
         return self.y != 0
 
     def has_left(self):
-        return self.y != 0
+        return self.x != 0
 
     def has_bottom(self):
         return self.y != self.max_y
