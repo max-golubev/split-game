@@ -1,6 +1,6 @@
 import unittest
 
-import BigCell
+from BigCell import *
 import Board
 from BigCell import BigCell
 
@@ -23,3 +23,14 @@ class BoardTest(unittest.TestCase):
         self.assertEqual(x, result.get_x())
         self.assertEqual(y, result.get_y())
         return result
+
+    def test_cell_owner(self):
+        board = Board.Board(3, 3)
+        center = board.get_cell(1, 1)
+        self.assertEqual(NOONE, center.get_cell_owner(Direction.TOP))
+        self.assertEqual(NOONE, center.get_cell_owner(Direction.BOTTOM))
+        self.assertEqual(NOONE, center.get_owner())
+        center.set_cell_owner(Direction.TOP, 42)
+        self.assertEqual(42, center.get_cell_owner(Direction.TOP))
+        self.assertEqual(NOONE, center.get_cell_owner(Direction.BOTTOM))
+        self.assertEqual(42, center.get_owner())
