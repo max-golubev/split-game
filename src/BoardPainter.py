@@ -1,5 +1,5 @@
 import Board
-import BigCell
+from BigCell import *
 import pygame
 
 border_color = (0, 0, 255)
@@ -22,23 +22,25 @@ class BoardPainter:
                 cell = board.get_cell(col, row)
                 self.draw_cell(cell, col, row)
 
-    def draw_cell(self, cell: BigCell.BigCell, col, row):
-        top = self.cell * row + self.y0
-        left = self.cell * col + self.x0
+    def draw_cell(self, cell: BigCell, col, row):
+        for dir in Direction:
+            if cell.has_small_cell(dir):
+                square = self.get_small_square(cell, dir)
+                pygame.draw.rect(self.screen, cell_color, square)
+
+
+    def get_small_square(self, cell: BigCell, direction: Direction):
+        top = self.cell * cell.get_y() + self.y0
+        left = self.cell * cell.get_x() + self.x0
         delta = (self.cell - self.small) / 2
-        if cell.has_top():
-            self.draw_small_cell(left + delta, top)
-        if cell.has_left():
-            self.draw_small_cell(left, top + delta)
-        if cell.has_bottom():
-            self.draw_small_cell(left + delta, top + self.cell - self.small)
-        if cell.has_right():
-            self.draw_small_cell(left + self.cell - self.small, top + delta)
-
-    def draw_small_cell(self, left, top):
-        square = (left, top, self.small, self.small)
-        pygame.draw.rect(self.screen, cell_color, square)
-
+        if direction == Direction.TOP:
+            return (left + delta, top, self.small, self.small)
+        if direction == Direction.RIGHT:
+            return (left + self.cell - self.small, top + delta, self.small, self.small)
+        if direction == Direction.BOTTOM:
+            return (left + delta, top + self.cell - self.small, self.small, self.small)
+        if direction == Direction.LEFT:
+            return (left, top + delta, self.small, self.small)
 
 
     def draw_borders(self, board: Board.Board):
