@@ -1,6 +1,10 @@
 from enum import Enum
 
 NOONE = -1
+PLAYER_1 = 1
+PLAYER_2 = 2
+PLAYER_3 = 3
+PLAYER_4 = 4
 
 class Direction(Enum):
     TOP = 1
