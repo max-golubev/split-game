@@ -5,10 +5,13 @@ import pygame
 
 border_color = (0, 0, 255)
 cell_color = (100, 100, 100)
-player_color_1 = (255, 0, 0)
-player_color_2 = (0, 255, 0)
-player_color_3 = (0, 0, 255)
-player_color_4 = (255, 255, 0)
+
+PLAYER_COLORS = {}
+PLAYER_COLORS[PLAYER_1] = (255, 0, 0)
+PLAYER_COLORS[PLAYER_2] = (0, 255, 0)
+PLAYER_COLORS[PLAYER_3] = (0, 0, 255)
+PLAYER_COLORS[PLAYER_4] = (255, 255, 0)
+PLAYER_COLORS[NOONE] = cell_color
 
 class BoardPainter:
     def __init__(self, cell, small, screen: pygame.Surface):
@@ -39,15 +42,7 @@ class BoardPainter:
         return self.get_color_for_player(owner)
 
     def get_color_for_player(self, player):
-        if player == PLAYER_1:
-            return player_color_1
-        if player == PLAYER_2:
-            return player_color_2
-        if player == PLAYER_3:
-            return player_color_3
-        if player == PLAYER_4:
-            return player_color_4
-        return cell_color
+        return PLAYER_COLORS[player]
 
     def get_small_square(self, cell: BigCell, direction: Direction) -> pygame.Rect:
         top = self.cell * cell.get_y() + self.y0
