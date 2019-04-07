@@ -14,15 +14,25 @@ PLAYER_COLORS[PLAYER_4] = (255, 255, 0)
 PLAYER_COLORS[NOONE] = cell_color
 
 class BoardPainter:
-    def __init__(self, cell, small, screen: pygame.Surface):
+    def __init__(self, cell, small, screen: pygame.Surface, font: pygame.font.Font):
         self.cell = cell #size in pixels
         self.small = small #pixels
         self.screen = screen
+        self.font = font
         self.x0, self.y0 = 10, 10
 
     def draw_board(self, board: Board.Board):
         self.draw_cells(board)
         self.draw_borders(board)
+        self.draw_current_player(board)
+
+    def draw_current_player(self, board: Board.Board):
+        player = board.get_current_player()
+        text = self.font.render("current player: %d" % player, True, self.get_color_for_player(player))
+        bottom = self.y0 + self.cell * board.get_rows()
+        centre = self.x0 + self.cell * board.get_columns() // 2
+        self.screen.blit(text, (centre - text.get_width() // 2, bottom + 10))
+
 
     def draw_cells(self, board: Board.Board):
         for row in range(0, board.get_rows()):

@@ -1,8 +1,9 @@
-import BigCell
+from BigCell import *
 
 
 class Board:
     def __init__(self, width, height):
+        self.current_player = PLAYER_1
         self.columns = width
         self.rows = height
         self.cells = width * [None]
@@ -10,9 +11,12 @@ class Board:
             column = height * [None]
             self.cells[x] = column
             for y in range(0, height):
-                column[y] = BigCell.BigCell(x, y, width, height)
+                column[y] = BigCell(x, y, width, height)
 
-    def get_cell(self, col, row) -> BigCell.BigCell:
+    def get_current_player(self):
+        return self.current_player
+
+    def get_cell(self, col, row) -> BigCell:
         return self.cells[col][row]
 
     def get_columns(self):

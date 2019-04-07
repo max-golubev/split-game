@@ -20,10 +20,11 @@ def compute_next_owner(cell: BigCell, direction: Direction):
 
 pygame.init()
 screen = pygame.display.set_mode((800, 800))
+font = pygame.font.Font(None, 40)
 done = False
 
 board = Board.Board(6, 5)
-painter = BoardPainter(120, 40, screen)
+painter = BoardPainter(120, 40, screen, font)
 
 while not done:
     for event in pygame.event.get():
