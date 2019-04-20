@@ -32,11 +32,17 @@ class Board:
         return True
 
     def explode(self, cell: BigCell):
-        cell.clear()
-        for next in self.neighbours(cell).items():
-            dir, neighbour = next
-            origin = dir.get_opposite()
-            neighbour.capture(self.current_player, origin)
+        queue = [cell]
+        while len(queue) > 0:
+            next = queue.pop(0)
+            next.clear()
+            for next in self.neighbours(next).items():
+                dir, neighbour = next
+                origin = dir.get_opposite()
+                neighbour.capture(self.current_player, origin)
+                if neighbour.is_full():
+                    queue.append(neighbour)
+
 
     def neighbours(self, cell: BigCell):
         result = {}
