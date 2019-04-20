@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 NOONE = -1
 PLAYER_1 = 1
@@ -12,6 +13,17 @@ class Direction(Enum):
     BOTTOM = 3
     LEFT = 4
     OUTSIDE = 5
+
+    def get_opposite(self):
+        if self == Direction.TOP:
+            return Direction.BOTTOM
+        if self == Direction.RIGHT:
+            return Direction.LEFT
+        if self == Direction.BOTTOM:
+            return Direction.TOP
+        if self == Direction.LEFT:
+            return Direction.RIGHT
+        return Direction.OUTSIDE
 
 class BigCell:
 
@@ -38,11 +50,45 @@ class BigCell:
         for next in Direction:
             if next == Direction.OUTSIDE:
                 continue
-
             cell_owner = self.get_cell_owner(next)
             if cell_owner != NOONE:
                 return cell_owner
         return NOONE
+
+    def clear(self):
+        for next in Direction:
+            if next == Direction.OUTSIDE:
+                continue
+            self.set_cell_owner(next, NOONE)
+
+    def capture(self, player, origin: Direction):
+        empty_directions = []
+        for next in Direction:
+            if next == Direction.OUTSIDE:
+                continue
+            if not self.has_small_cell(next):
+                continue
+            if self.get_cell_owner(next) != NOONE:
+                self.set_cell_owner(next, player)
+            else:
+                empty_directions.append(next)
+
+        if self.get_cell_owner(origin) == NOONE:
+            self.set_cell_owner(origin, player)
+        else:
+            random_index = random.randint(0, len(empty_directions) - 1)
+            self.set_cell_owner(empty_directions[random_index], player)
+
+    def is_full(self):
+        for next in Direction:
+            if next == Direction.OUTSIDE:
+                continue
+            if not self.has_small_cell(next):
+                continue
+            if self.get_cell_owner(next) == NOONE:
+                return False
+        return True
+
 
     def get_cell_owner(self, direction):
         return self.small_cells[direction]

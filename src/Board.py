@@ -27,8 +27,30 @@ class Board:
         if owner != NOONE and owner != self.current_player:
             return False
         cell.set_cell_owner(direction, self.current_player)
+        if cell.is_full():
+            self.explode(cell)
         return True
 
+    def explode(self, cell: BigCell):
+        cell.clear()
+        for next in self.neighbours(cell).items():
+            dir, neighbour = next
+            origin = dir.get_opposite()
+            neighbour.capture(self.current_player, origin)
+
+    def neighbours(self, cell: BigCell):
+        result = {}
+        x = cell.get_x()
+        y = cell.get_y()
+        if cell.has_top():
+            result[Direction.TOP] = self.get_cell(x, y - 1)
+        if cell.has_right():
+            result[Direction.RIGHT] = self.get_cell(x + 1, y)
+        if cell.has_bottom():
+            result[Direction.BOTTOM] = self.get_cell(x, y + 1)
+        if cell.has_left():
+            result[Direction.LEFT] = self.get_cell(x - 1, y)
+        return result
 
     def compute_next_player(self):
         current = self.get_current_player()
