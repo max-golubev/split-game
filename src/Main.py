@@ -3,21 +3,6 @@ import Board
 from BoardPainter import *
 from BigCell import *
 
-def compute_next_owner(cell: BigCell, direction: Direction):
-    owner = cell.get_cell_owner(direction)
-    if owner == NOONE:
-        return PLAYER_1
-    if owner == PLAYER_1:
-        return PLAYER_2
-    if owner == PLAYER_2:
-        return PLAYER_3
-    if owner == PLAYER_3:
-        return PLAYER_4
-    if owner == PLAYER_4:
-        return NOONE
-    raise "Unknown player: " + repr(owner)
-
-
 pygame.init()
 screen = pygame.display.set_mode((800, 800))
 font = pygame.font.Font(None, 40)
@@ -36,10 +21,10 @@ while not done:
             if cell is not None:
                 print("you clicked [%d, %d]" % (cell.get_x(), cell.get_y()) + ", dir: " + repr(direction))
                 if direction != Direction.OUTSIDE:
-                    next_owner = compute_next_owner(cell, direction)
-                    cell.set_cell_owner(direction, next_owner)
+                    if board.perform_turn(cell, direction):
+                        board.finish_turn()
 
-
+    screen.fill(pygame.Color("black"))
     painter.draw_board(board)
     pygame.display.flip()
 

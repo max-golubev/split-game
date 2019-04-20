@@ -16,9 +16,19 @@ class Board:
     def get_current_player(self):
         return self.current_player
 
-    def start_next_turn(self):
+    def finish_turn(self):
         self.current_player = self.compute_next_player()
         return self.get_current_player()
+
+    def perform_turn(self, cell: BigCell, direction: Direction):
+        if cell.get_cell_owner(direction) != NOONE:
+            return False
+        owner = cell.get_owner()
+        if owner != NOONE and owner != self.current_player:
+            return False
+        cell.set_cell_owner(direction, self.current_player)
+        return True
+
 
     def compute_next_player(self):
         current = self.get_current_player()
